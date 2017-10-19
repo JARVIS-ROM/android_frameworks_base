@@ -127,6 +127,7 @@ android_library {
         "LowLightDreamLib",
     ],
     manifest: "AndroidManifest.xml",
+    additional_manifests: ["JarvisManifest.xml"],
 
     kotlincflags: ["-Xjvm-default=enable"],
 

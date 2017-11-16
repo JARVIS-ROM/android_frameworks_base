@@ -44,6 +44,10 @@
     <!-- DataSwitch Tile -->
     <string name="qs_data_switch_label">Switch data card</string>
 
+    <!-- Reboot/Recovery QS tile -->
+    <string name="quick_settings_reboot_label">Reboot</string>
+    <string name="quick_settings_reboot_recovery_label">Recovery</string>
+
     <!-- Power Menu -->
     <string name="global_action_reboot">Restart</string>
     <string name="global_action_reboot_more">Restart\u2026</string>

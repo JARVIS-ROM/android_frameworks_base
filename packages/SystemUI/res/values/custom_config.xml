@@ -23,7 +23,7 @@
 
     <!-- The default extr tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_extra" translatable="false">
-    caffeine,dataswitch
+    caffeine,dataswitch,cpuinfo
     </string>
 
     <!-- StatusBar burn-in protection -->

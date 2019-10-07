@@ -9044,6 +9044,20 @@ public final class Settings {
         public static final String DOZE_ALWAYS_ON_AUTO_TIME = "doze_always_on_auto_time";
 
         /**
+         * Whether to enable DOZE only when charging
+         * @hide
+         */
+        @Readable
+        public static final String DOZE_ON_CHARGE = "doze_on_charge";
+
+        /**
+         * hidden stting of the current atate of DOZE only when charging
+         * @hide
+         */
+        @Readable
+        public static final String DOZE_ON_CHARGE_NOW = "doze_on_charge_now";
+
+        /**
          * Whether the device should pulse on pick up gesture.
          * @hide
          */

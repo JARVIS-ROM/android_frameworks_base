@@ -19,8 +19,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.android.systemui">
 
-    <!-- DataSwitch tile -->
+    <!-- Custom permissions -->
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
+
+    <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
 
     <!-- SystemUI Tuner -->
     <application>

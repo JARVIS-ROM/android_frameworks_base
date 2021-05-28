@@ -4,6 +4,8 @@
         android:sharedUserId="android.uid.system">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- DeviceConfig -->
+    <uses-permission android:name="android.permission.READ_DEVICE_CONFIG" />
 
     <application android:allowClearUserData="false"
                  android:label="@string/app_label"

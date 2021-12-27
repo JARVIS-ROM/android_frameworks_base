@@ -64,6 +64,11 @@
         android:persistent="false"
         android:title="@string/status_bar_nfc" />
 
+    <com.android.systemui.tuner.StatusBarSwitch
+        android:icon="@drawable/ic_statusbar_phone"
+        android:key="call_strength"
+        android:title="@string/status_bar_call_strength" />
+
     <!-- tty -->
     <!-- speakerphone -->
 

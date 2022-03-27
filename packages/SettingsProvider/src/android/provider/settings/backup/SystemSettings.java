@@ -90,5 +90,8 @@ public class SystemSettings {
         Settings.System.ALARM_ALERT,
         Settings.System.NOTIFICATION_LIGHT_PULSE,
         Settings.System.VOLUME_PANEL_ON_LEFT,
+        Settings.System.QQS_SHOW_BRIGHTNESS,
+        Settings.System.SHOW_AUTO_BRIGHTNESS_BUTTON,
+        Settings.System.BRIGHTNESS_SLIDER_POSITION,
     };
 }

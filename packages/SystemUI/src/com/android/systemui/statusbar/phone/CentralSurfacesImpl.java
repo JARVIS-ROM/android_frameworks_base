@@ -67,6 +67,7 @@ import android.content.pm.IPackageManager;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.database.ContentObserver;
 import android.graphics.Point;
 import android.hardware.devicestate.DeviceStateManager;
 import android.metrics.LogMaker;
@@ -240,6 +241,7 @@ import com.android.systemui.util.DumpUtilsKt;
 import com.android.systemui.util.WallpaperController;
 import com.android.systemui.util.concurrency.DelayableExecutor;
 import com.android.systemui.util.concurrency.MessageRouter;
+import com.android.systemui.util.settings.SystemSettings;
 import com.android.systemui.volume.VolumeComponent;
 import com.android.wm.shell.bubbles.Bubbles;
 import com.android.wm.shell.startingsurface.SplashscreenContentDrawer;
@@ -670,6 +672,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
             (extractor, which) -> updateTheme();
 
     private final InteractionJankMonitor mJankMonitor;
+    private final SystemSettings mSystemSettings;
 
     private final OnBackInvokedCallback mOnBackInvokedCallback = () -> {
         if (DEBUG) {
@@ -772,7 +775,8 @@ public class CentralSurfacesImpl extends CoreStartable implements
             InteractionJankMonitor jankMonitor,
             DeviceStateManager deviceStateManager,
             WiredChargingRippleController wiredChargingRippleController,
-            IDreamManager dreamManager) {
+            IDreamManager dreamManager,
+            SystemSettings systemSettings) {
         super(context);
         mNotificationsController = notificationsController;
         mFragmentService = fragmentService;
@@ -858,6 +862,7 @@ public class CentralSurfacesImpl extends CoreStartable implements
         statusBarWindowStateController.addListener(this::onStatusBarWindowStateChanged);
 
         mScreenOffAnimationController = screenOffAnimationController;
+        mSystemSettings = systemSettings;
 
         mPanelExpansionStateManager.addExpansionListener(this::onPanelExpansionChanged);
 
@@ -1277,15 +1282,15 @@ public class CentralSurfacesImpl extends CoreStartable implements
                     mNotificationPanelViewController,
                     mNotificationShadeDepthControllerLazy.get(),
                     mBrightnessSliderFactory,
-                    (visible) -> {
+                    visible -> {
                         mBrightnessMirrorVisible = visible;
                         updateScrimController();
                     });
             fragmentHostManager.addTagListener(QS.TAG, (tag, f) -> {
-                QS qs = (QS) f;
-                if (qs instanceof QSFragment) {
-                    mQSPanelController = ((QSFragment) qs).getQSPanelController();
-                    ((QSFragment) qs).setBrightnessMirrorController(mBrightnessMirrorController);
+                if (f instanceof QSFragment) {
+                    final QSFragment qsf = (QSFragment) f;
+                    mQSPanelController = qsf.getQSPanelController();
+                    qsf.setBrightnessMirrorController(mBrightnessMirrorController);
                 }
             });
         }

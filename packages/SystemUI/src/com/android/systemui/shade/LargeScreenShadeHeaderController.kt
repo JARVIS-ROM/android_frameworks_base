@@ -18,7 +18,10 @@ package com.android.systemui.shade
 
 import android.annotation.IdRes
 import android.app.StatusBarManager
+import android.content.Context
 import android.content.res.Configuration
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Trace
 import android.os.Trace.TRACE_TAG_APP
 import android.util.Pair
@@ -53,6 +56,7 @@ import com.android.systemui.statusbar.phone.StatusIconContainer
 import com.android.systemui.statusbar.phone.dagger.CentralSurfacesComponent.CentralSurfacesScope
 import com.android.systemui.statusbar.phone.dagger.StatusBarViewModule.LARGE_SCREEN_BATTERY_CONTROLLER
 import com.android.systemui.statusbar.phone.dagger.StatusBarViewModule.LARGE_SCREEN_SHADE_HEADER
+import com.android.systemui.statusbar.policy.Clock
 import com.android.systemui.statusbar.policy.ConfigurationController
 import com.android.systemui.statusbar.policy.VariableDateView
 import com.android.systemui.statusbar.policy.VariableDateViewController
@@ -83,6 +87,7 @@ class LargeScreenShadeHeaderController @Inject constructor(
     private val privacyIconsController: HeaderPrivacyIconsController,
     private val insetsProvider: StatusBarContentInsetsProvider,
     private val configurationController: ConfigurationController,
+    private val context: Context,
     private val variableDateViewControllerFactory: VariableDateViewController.Factory,
     @Named(LARGE_SCREEN_BATTERY_CONTROLLER)
     private val batteryMeterViewController: BatteryMeterViewController,
@@ -131,6 +136,7 @@ class LargeScreenShadeHeaderController @Inject constructor(
     private val iconContainer: StatusIconContainer = header.findViewById(R.id.statusIcons)
     private val qsCarrierGroup: QSCarrierGroup = header.findViewById(R.id.carrier_group)
 
+    private var textColorPrimary = Color.TRANSPARENT
     private var cutoutLeft = 0
     private var cutoutRight = 0
     private var roundedCorners = 0
@@ -273,6 +279,13 @@ class LargeScreenShadeHeaderController @Inject constructor(
             .setQSCarrierGroup(qsCarrierGroup)
             .build()
 
+        val configurationChangedListener = object : ConfigurationController.ConfigurationListener {
+            override fun onUiModeChanged() {
+                updateResources()
+            }
+        }
+        configurationController.addCallback(configurationChangedListener)
+
         if (!combinedHeaders) {
             // In the new header, we display alarm icon but we ignore it when not using the new
             // headers.
@@ -280,7 +293,9 @@ class LargeScreenShadeHeaderController @Inject constructor(
                     context.getString(com.android.internal.R.string.status_bar_alarm_clock)
             )
         }
+        updateResources()
     }
+
 
     override fun onViewAttached() {
         privacyIconsController.chipVisibilityListener = chipVisibilityListener
@@ -386,6 +401,7 @@ class LargeScreenShadeHeaderController @Inject constructor(
         }
         updateVisibility()
         updatePosition()
+        updateResources()
     }
 
     private fun onHeaderStateChanged() {
@@ -396,6 +412,7 @@ class LargeScreenShadeHeaderController @Inject constructor(
         }
         updateVisibility()
         updateTransition()
+        updateResources()
     }
 
     /**
@@ -468,6 +485,23 @@ class LargeScreenShadeHeaderController @Inject constructor(
         val padding = resources.getDimensionPixelSize(R.dimen.qs_panel_padding)
         header.setPadding(padding, header.paddingTop, padding, header.paddingBottom)
         updateQQSPaddings()
+
+        val fillColor = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary)
+        iconManager.setTint(fillColor)
+        val textColor = Utils.getColorAttrDefaultColor(context, android.R.attr.textColorPrimary)
+        val colorStateList = Utils.getColorAttr(context, android.R.attr.textColorPrimary)
+        if (textColor != textColorPrimary) {
+            val textColorSecondary = Utils.getColorAttrDefaultColor(context,
+                    android.R.attr.textColorSecondary)
+            textColorPrimary = textColor
+            if (iconManager != null) {
+                iconManager.setTint(textColor)
+            }
+            clock.setTextColor(textColorPrimary)
+            date.setTextColor(textColorPrimary)
+            qsCarrierGroup.updateColors(textColorPrimary, colorStateList)
+            batteryIcon.updateColors(textColorPrimary, textColorSecondary, textColorPrimary)
+        }
     }
 
     private fun updateQQSPaddings() {

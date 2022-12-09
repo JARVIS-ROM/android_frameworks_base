@@ -555,7 +555,7 @@ public class DozeSensors {
                     requiresTouchscreen,
                     false /* ignoresSetting */,
                     false /* requiresProx */,
-                    true /* immediatelyReRegister */
+                    true /* immediatelyReRegister */,
                     performsProxCheck
             );
         }
@@ -582,7 +582,8 @@ public class DozeSensors {
                     requiresTouchscreen,
                     ignoresSetting,
                     requiresProx,
-                    true
+                    true,
+                    immediatelyReRegister
             );
         }
 
@@ -596,7 +597,8 @@ public class DozeSensors {
                 boolean requiresTouchscreen,
                 boolean ignoresSetting,
                 boolean requiresProx,
-                boolean performsProxCheck
+                boolean performsProxCheck,
+                boolean immediatelyReRegister
         ) {
             this(
                     new Sensor[]{ sensor },
@@ -638,6 +640,7 @@ public class DozeSensors {
                     ignoresSetting,
                     requiresProx,
                     true,
+                    immediatelyReRegister,
                     posture
             );
         }
@@ -653,6 +656,7 @@ public class DozeSensors {
                 boolean ignoresSetting,
                 boolean requiresProx,
                 boolean performsProxCheck,
+                boolean immediatelyReRegister,
                 @DevicePostureController.DevicePostureInt int posture
         ) {
             mSensors = sensors;

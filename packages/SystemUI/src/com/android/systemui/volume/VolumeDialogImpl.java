@@ -478,10 +478,10 @@ public class VolumeDialogImpl implements VolumeDialog,
             }
         }
 
-        if (mVolumePanelOnLeft && isLandscape()) {
+        if (mVolumePanelOnLeft) {
             mTouchableRegion.op(
                     locInWindow[0],
-                    locInWindow[1],
+                    locInWindow[1] + (int) yExtraSize,
                     locInWindow[0] + view.getWidth() - (int) xExtraSize,
                     locInWindow[1] + view.getHeight(),
                     Region.Op.UNION);
@@ -1666,9 +1666,9 @@ public class VolumeDialogImpl implements VolumeDialog,
                 }, 50));
         if (!shouldSlideInVolumeTray()) {
             animator.translationX(getTranslationForPanelLocation() * mDialogView.getWidth() / 2.0f);
+            animator.setListener(getJankListener(getDialogView(), TYPE_DISMISS,
+                    mDialogHideAnimationDurationMs)).start();
         }
-        animator.setListener(getJankListener(getDialogView(), TYPE_DISMISS,
-                mDialogHideAnimationDurationMs)).start();
         checkODICaptionsTooltip(true);
         synchronized (mSafetyWarningLock) {
             if (mSafetyWarning != null) {

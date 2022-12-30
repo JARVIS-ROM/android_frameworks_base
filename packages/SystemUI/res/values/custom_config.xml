@@ -23,7 +23,7 @@
 
     <!-- The default extr tiles to display in QuickSettings -->
     <string name="quick_settings_tiles_extra" translatable="false">
-    caffeine,dataswitch,cpuinfo
+    caffeine,cpuinfo
     </string>
 
     <!-- Preferred max refresh rate at AOD & Ambient Display, if supported by the display. -->

@@ -20,7 +20,6 @@
         package="com.android.systemui">
 
     <!-- Custom permissions -->
-    <uses-permission android:name="android.permission.WRITE_APN_SETTINGS" />
 
     <uses-permission android:name="android.permission.MAINLINE_NETWORK_STACK" />
 

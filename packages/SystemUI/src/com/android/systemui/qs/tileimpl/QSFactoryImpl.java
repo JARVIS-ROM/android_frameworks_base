@@ -59,7 +59,6 @@ import com.android.systemui.qs.tiles.ScreenRecordTile;
 import com.android.systemui.qs.tiles.UiModeNightTile;
 import com.android.systemui.qs.tiles.WifiTile;
 import com.android.systemui.qs.tiles.WorkModeTile;
-import com.android.systemui.qs.tiles.DataSwitchTile;
 import com.android.systemui.util.leak.GarbageMonitor;
 
 import javax.inject.Inject;
@@ -104,7 +103,6 @@ public class QSFactoryImpl implements QSFactory {
     private final Provider<DreamTile> mDreamTileProvider;
     // JARVIS additions
     private final Provider<CaffeineTile> mCaffeineTileProvider;
-    private final Provider<DataSwitchTile> mDataSwitchTileProvider;
     private final Provider<CPUInfoTile> mCPUInfoTileProvider;
 
     private final Lazy<QSHost> mQsHostLazy;
@@ -146,7 +144,6 @@ public class QSFactoryImpl implements QSFactory {
             Provider<DreamTile> dreamTileProvider,
             // JARVIS additions
             Provider<CaffeineTile> caffeineTileProvider,
-            Provider<DataSwitchTile> dataSwitchTileProvider,
             Provider<CPUInfoTile> cpuInfoTileProvider) {
         mQsHostLazy = qsHostLazy;
         mCustomTileBuilderProvider = customTileBuilderProvider;
@@ -183,7 +180,6 @@ public class QSFactoryImpl implements QSFactory {
         mDreamTileProvider = dreamTileProvider;
         // JARVIS additions
         mCaffeineTileProvider = caffeineTileProvider;
-        mDataSwitchTileProvider = dataSwitchTileProvider;
         mCPUInfoTileProvider = cpuInfoTileProvider;
     }
 
@@ -263,8 +259,6 @@ public class QSFactoryImpl implements QSFactory {
             // JARVIS additions
             case "caffeine":
                 return mCaffeineTileProvider.get();
-            case "dataswitch":
-                return mDataSwitchTileProvider.get();
             case "cpuinfo":
                 return mCPUInfoTileProvider.get();
         }
